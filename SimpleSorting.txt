@@ -1,0 +1,220 @@
+Simple Sorting consists of : 1)Selection  2)Bubble  3)Insertion
+1)Selection -> In this we select the minimum and swap it to the first index and similarily we will select next smallest then we can swap it to the 2nd index and so on goes the loop.
+
+It works as swap goes from index:
+    0 and the min index [0 to n-1]
+    1 and the min index [1 to n-1]
+    2 and the min index [2 to n-1] and so on to 
+    n-2 and the min index [n-2 to n-1]
+
+i.e. for(int i=0; i< n-1; i++)   //external loop going for the whole array
+    {
+        int min = i;
+        for (int j=i; j< n; j++)  //Internal loop for finding the min number from the remaining array
+        {
+            if(arr[j] < arr[min]) min = j;
+        }
+        swap ( arr[min], arr[i])
+    }
+
+
+for swapping we wll use a temp function as:
+temp = arr[min]
+arr[min] = arr[i]
+arr[i] = temp
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void selection_sort(int arr[], int n){
+    for (int i =0; i<= n-2; i++){
+        int mini = i;
+        for (int j=i; j<= n-1 ; j++){
+            if(arr[j] < arr[mini]){
+                mini = j;
+            }
+        }
+        int temp = arr[mini];    // Swapping
+        arr[mini] = arr[i];
+        arr[i]= temp;
+    }
+}
+
+int main() {
+    int n ;
+    cin >> n;
+    int arr[n];
+    for (int i=0; i<n; i++) cin >> arr[i];
+    selection_sort(arr, n);
+    for(int i=0; i<n ; i++){
+        cout << arr[i] << " ";
+    }
+    return 0;
+}
+
+The time complexity of thhis sorting is N(N+1)/2 but we would ignore the N/2 and 1/2 in thus the time complexity becomes O(N^2)
+
+----------
+Difference between Selection and Bubble : In Selection type sorting we select the smallest element and change its index to first and moves so on doing till the array is sorted while in bubble sorting the largest element is swap with the adjacent element like a bubble till th earray gets sort
+----------
+
+2)Bubble Sorting -->It is the simplest sorting Algorithm. It works on repeatedly swapping of array elements and it is not very efficient for larger data sets array.
+Logic :
+    if(arr[j] > arr[j+1]){
+    swap(arr[j], arr[j+1]);
+    }
+
+Time complexity[O(N^2)] for worst and Average cases &  in Optimal Approach it because O(N) for Best cases
+
+Brute Force Approach: 
+        #include <bits/stdc++.h>
+        using namespace std;
+
+        class BubbleSort {
+        public:
+            void bubble_sort(vector<int>& arr) {
+                int n = arr.size();
+                for (int i = n - 1; i >= 0; i--) {  //Use two nested loops to iterate over the array
+                    for (int j = 0; j <= i - 1; j++) {
+                        if (arr[j] > arr[j + 1]) {
+                            swap(arr[j], arr[j + 1]); //Swap arr[i] with arr[j+1]
+                        }
+                    }
+                }
+                cout << "After Using Bubble Sort:\n";
+                for (int num : arr) {
+                    cout << num << " ";
+                }
+                cout << endl;
+            }
+        };
+
+        int main() {
+            vector<int> arr = {13, 46, 24, 52, 20, 9};
+
+            cout << "Before Using Bubble Sort:\n";
+            for (int num : arr) {
+                cout << num << " ";
+            }
+            cout << endl;
+
+            BubbleSort sorter;
+            sorter.bubble_sort(arr);
+
+            return 0;
+        }
+
+Optimal Approach:
+
+        #include <bits/stdc++.h>
+        using namespace std;
+
+        class BubbleSort {
+        public:
+            void bubble_sort(vector<int>& arr) {
+                int n = arr.size();
+                for (int i = n - 1; i >= 0; i--) {
+                    int didSwap = 0; //Use two nested loops to iterate over the array
+                    for (int j = 0; j <= i - 1; j++) {
+                        if (arr[j] > arr[j + 1]) {
+                            swap(arr[j], arr[j + 1]);  //Swap arr[j+1] with arr[i]
+                            didSwap = 1;
+                        }
+                    }
+                    if (didSwap == 0) {
+                        break;
+                    }
+                }
+
+                cout << "After Using Bubble Sort:\n";
+                for (int num : arr) {
+                    cout << num << " ";
+                }
+                cout << endl;
+            }
+        };
+
+        int main() {
+            vector<int> arr = {13, 46, 24, 52, 20, 9};
+
+            cout << "Before Using Bubble Sort:\n";
+            for (int num : arr) {
+                cout << num << " ";
+            }
+            cout << endl;
+
+            BubbleSort sorter;
+            sorter.bubble_sort(arr);
+
+            return 0;
+        }
+
+=================================================================
+
+3) Insertion Sorting --> In this type of sorting we select an element an insert that element in the sorted part of the array.
+Logic:
+    int key = arr[i];
+    int j = i - 1;
+    while(j >= 0 && arr[j] > key){
+        arr[j+1] = arr[j];
+        j--;
+    }
+    arr[j+1] = key;
+
+Time complexity is same as the bubble's Optimised (didSwap) case i.e. O(N) for the best and (N^2) for worst and average cases.
+And it is better than bubble and selection as it has:
+Fewer swaps     Faster in practice      Works very well for nearly sorted arrays        Used inside advanced algorithms sometimes.
+
+Code:
+    #include <bits/stdc++.h>
+    using namespace std;
+
+    class Solution {
+    public:
+        // Function to sort the array using insertion sort
+        vector<int> insertionSort(vector<int>& nums) {
+            int n = nums.size(); // Size of the array 
+            
+            // For every element in the array 
+            for (int i = 1; i < n; i++) {
+                int key = nums[i]; // Current element as key 
+                int j = i - 1; 
+                
+                // Shift elements that are greater than key by one position
+                while (j >= 0 && nums[j] > key) {
+                    nums[j + 1] = nums[j];
+                    j--;
+                }
+                
+                nums[j + 1] = key; // Insert key at correct position
+            }
+            
+            return nums;
+        }
+    };
+
+
+    int main() {
+        // Create an instance of solution class
+        Solution solution;
+        
+        vector<int> nums = {13, 46, 24, 52, 20, 9};
+        
+        cout << "Before Using Insertion Sort: " << endl;
+        for (int num : nums) {
+            cout << num << " ";
+        }
+        cout << endl;
+
+        // Function call for insertion sort
+        nums = solution.insertionSort(nums);
+
+        cout << "After Using Insertion Sort: " << endl;
+        for (int num : nums) {
+            cout << num << " ";
+        }
+        cout << endl;
+
+        return 0;
+    }

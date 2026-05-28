@@ -1,0 +1,125 @@
+It refers to the way of declarying an array reducing the time complexity as for checking any number in the array would be very time consuming while making a hash array and running the loop in the array once and adding the frequency of those numbers the time they appear would be a great time consuming for the machine.
+
+//Number Hashing
+
+   
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+    int n;
+    cin >> n;
+    int arr[n];
+    for (int i = 0 ; i<n ; i++){  
+        cin >> arr[i];
+    }
+    // precompute
+     int hash[13] = {0};  // we can't just say for hash[n] otherwise it would give rubbish/garbage value for not given number in the array
+     for (int i=0; i< n ;i++){
+         hash[arr[i]] +=1;
+     }
+     //queries
+     int q;
+     cin >> q;
+     while (q--){
+         int number ;
+         cin >> number;
+         //fetch
+         cout << hash[number] << endl;
+     }
+    return 0;
+}
+
+
+In this code we would first input an array , then we would be precomputing an hash array let's say of size 13 that would coontain 0-12 elements and then runnig the while loop for checking the test cases and thrn inputing the numbers which we want to check 
+The number's frequency are filled in the hash array according to those entries and thus we call out the number we want to know about
+
+
+//Character Hashing
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+    string s;
+    cin >> s;
+    //precomputing
+    int hash[26]={0};
+    for (int i = 0; i< s.size(); i++){
+        hash[s[i] - 'a']++; //indexing of the characters in the given hash array (eg. 0 to a , 1 to b and so on)
+    }
+    //queries
+
+    int q;
+     cin >> q;
+     while (q--){
+         char c;
+         cin >> c;
+         
+         // fetch 
+         cout << hash[c - 'a'] << endl;  // c - 'a' becoz for the index we have to go for character - first letter i.e. a
+     }
+    return 0;
+}
+
+
+In this we used hash of 26 but for there existing 256 characters so we would be using hash[256] and in that case we won't need any - (subtraction) of those number or a char.
+
+As we can't hash numbers more than 10e7; so for that we would be using STL and unordered map in C++ or HashMap in Java.
+For this we have to declare a Key(element) and Value(frequency) 
+Map is used to store the elements in sorted order of keys while unordered as the name sugget does not follow any specificity in order.
+So Why do we have to use Hashing  using map instead of the array hashing?
+The difference considering the array: [1, 2, 3, 1, 3, 2, 12]. Here, the maximum element of the array is 12. So, if we apply array hashing, we need an array of size 13. While the map would just neend those 4 blocks (1,2,3,12).
+Note: If we want to fetch the value of a key that does not exist in the map, the map will always return 0 in C++ and null in Java.
+
+So we would use mapping that would again reduce the time and space complexity of that code
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+    int n;
+    cin >> n;
+    int arr[n];
+    //we could use that map here
+    for(int i=0; i<n ; i++){
+        cin >> arr[i];
+        //mpp[arr[i]]++;
+    }
+    //precomputing
+    map<int, int> mpp;  // <key, value>  where they could be int, char, double, float, long, long long whatever possible and that mpp is just any storing data type (and it could be used at the time of inputing array which would just decrease one loop which will not in any kind would save any complexity as that could be ignored)
+    for (int i = 0; i < n; i++){
+        mpp[arr[i]]++;
+    }
+    
+    //queries 
+    int q;
+    cin >> q;
+    while(q--){
+        int number;
+        cin >> number;
+        //fetch
+        
+        cout << mpp[number] << endl;
+    }
+    return 0;
+}
+
+
+There exists Iteration of those number in ordered way 
+for that we use auto iterator that has syntax::
+
+for(auto it : mpp){
+    cout << it.first << "->" << it.second << endl;
+}
+
+It automatically tells us the frequency of all the elements present in the array.
+
+Similarily we can use unordered_map<key, value> in that just a random order of mapping would be there nothing special
+It's generally recommended to be used as it generally give O(1) as the time complexity for those average and best case and once in blue moon it take Big-O(N) as the complexity where N is the number of elements in that array and in unordered_map <key,value> is limited to some minimal things
+And if it occurs then just use the map<key, value>
+
+Types of Hashing: 1) Division Method 2) Folding Method 3) Mod Square Method
+1) Div Method is used when we are restricted to make an array to some specific number then div method is use din which we will be % (modulating the number with 10) and store those values to the remainder value and we chain it there and the again repeating numbers would be chained as would be learned more in linked list.
+And we can again binary search for the frequency of those numbers
+Worst case happens when collision occurs ex when all those number goes under say 8th index

@@ -1,0 +1,1 @@
+Modern or Advanced Sorting consists of : 1) Merge Sorting 2)Recusive Bubble Sorting 3)Recursive Insertion Sorting 4)Quick Sorting.
